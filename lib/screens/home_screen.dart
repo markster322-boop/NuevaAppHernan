@@ -4,15 +4,23 @@ import 'calendar_screen.dart';
 import 'regulations_screen.dart';
 import 'sheet_music_screen.dart';
 
+const _institutionalBlue = Color(0xFF1E4E8C);
+const _institutionalLightBlue = Color(0xFF6EA8E5);
+const _institutionalBackground = Color(0xFFF5F5F5);
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _institutionalBackground,
       appBar: AppBar(
         title: const Text('Biblioteca de Banda Militar'),
         centerTitle: true,
+        backgroundColor: _institutionalBlue,
+        foregroundColor: Colors.white,
+        elevation: 2,
       ),
       body: SafeArea(
         child: Padding(
@@ -21,15 +29,17 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Consulta el material de apoyo para ensayos, ceremonias y '
-                'presentaciones oficiales.',
-                style: Theme.of(context).textTheme.titleMedium,
+                'Consulta el material de apoyo para ensayos, ceremonias y presentaciones oficiales.',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: _institutionalBlue,
+                      fontWeight: FontWeight.w600,
+                    ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
               _HomeNavigationButton(
                 key: const ValueKey('sheetMusicButton'),
-                icon: Icons.library_music_outlined,
+                icon: Icons.music_note,
                 label: 'Partituras',
                 onPressed: () => _openScreen(
                   context,
@@ -39,7 +49,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 16),
               _HomeNavigationButton(
                 key: const ValueKey('calendarButton'),
-                icon: Icons.event_note_outlined,
+                icon: Icons.calendar_month,
                 label: 'Calendario Patriótico',
                 onPressed: () => _openScreen(
                   context,
@@ -49,7 +59,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 16),
               _HomeNavigationButton(
                 key: const ValueKey('regulationsButton'),
-                icon: Icons.gavel_outlined,
+                icon: Icons.gavel,
                 label: 'Reglamentos',
                 onPressed: () => _openScreen(
                   context,
@@ -85,16 +95,28 @@ class _HomeNavigationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton.icon(
+      style: FilledButton.styleFrom(
+        backgroundColor: _institutionalBlue,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+      ),
       onPressed: onPressed,
-      icon: Icon(icon, size: 32),
+      icon: Icon(
+        icon,
+        color: Colors.white,
+        size: 32,
+      ),
       label: Padding(
         padding: const EdgeInsets.symmetric(vertical: 18),
         child: Text(
           label,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onPrimary,
-            fontWeight: FontWeight.w700,
-          ),
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
         ),
       ),
     );
