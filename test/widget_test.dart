@@ -1,30 +1,60 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:app_banda_militar/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets(
+    'shows military band library navigation',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(const MilitaryBandApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      expect(find.text('Biblioteca de Banda Militar'), findsOneWidget);
+      expect(find.text('Partituras'), findsOneWidget);
+      expect(find.text('Calendario Patriótico'), findsOneWidget);
+      expect(find.text('Reglamentos'), findsOneWidget);
+    },
+  );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets(
+    'navigates to sheet music screen',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(const MilitaryBandApp());
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+      await tester.tap(find.byKey(const ValueKey('sheetMusicButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Partituras'), findsWidgets);
+      expect(find.text('Himno Nacional - Versión para banda'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'navigates to patriotic calendar screen',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(const MilitaryBandApp());
+
+      await tester.tap(find.byKey(const ValueKey('calendarButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Calendario Patriótico'), findsWidgets);
+      expect(find.text('18 de septiembre'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'navigates to regulations screen',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(const MilitaryBandApp());
+
+      await tester.tap(find.byKey(const ValueKey('regulationsButton')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Reglamentos'), findsWidgets);
+      expect(
+        find.text('Presentación personal y uniforme para ceremonias'),
+        findsOneWidget,
+      );
+    },
+  );
 }
